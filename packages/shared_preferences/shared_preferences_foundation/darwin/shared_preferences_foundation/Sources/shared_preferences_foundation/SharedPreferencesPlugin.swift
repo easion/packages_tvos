@@ -4,7 +4,7 @@
 
 import Foundation
 
-#if os(iOS)
+#if os(iOS) || os(tvOS)
   import Flutter
 #elseif os(macOS)
   import FlutterMacOS
@@ -17,7 +17,7 @@ public class LegacySharedPreferencesPlugin: NSObject, FlutterPlugin, LegacyUserD
   public static func register(with registrar: FlutterPluginRegistrar) {
     let instance = LegacySharedPreferencesPlugin()
     // Workaround for https://github.com/flutter/flutter/issues/118103.
-    #if os(iOS)
+    #if os(iOS) || os(tvOS)
       let messenger = registrar.messenger()
     #else
       let messenger = registrar.messenger
@@ -75,7 +75,7 @@ public class SharedPreferencesPlugin: NSObject, FlutterPlugin, UserDefaultsApi {
   public static func register(with registrar: FlutterPluginRegistrar) {
     let instance = SharedPreferencesPlugin()
     // Workaround for https://github.com/flutter/flutter/issues/118103.
-    #if os(iOS)
+    #if os(iOS) || os(tvOS)
       let messenger = registrar.messenger()
     #else
       let messenger = registrar.messenger
@@ -87,7 +87,7 @@ public class SharedPreferencesPlugin: NSObject, FlutterPlugin, UserDefaultsApi {
   static private func getUserDefaults(options: SharedPreferencesPigeonOptions) throws
     -> UserDefaults
   {
-    #if os(iOS)
+    #if os(iOS) || os(tvOS)
       if !(options.suiteName?.starts(with: "group.") ?? true) {
         throw FlutterError(
           code: argumentError,

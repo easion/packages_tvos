@@ -5,7 +5,7 @@
 import Foundation
 import StoreKit
 
-#if os(iOS)
+#if os(iOS) || os(tvOS)
   import Flutter
 #elseif os(macOS)
   import FlutterMacOS
@@ -43,7 +43,7 @@ public class InAppPurchasePlugin: NSObject, FlutterPlugin, FIAInAppPurchaseAPI {
   var transactionCallbackAPI: InAppPurchase2CallbackAPI? = nil
 
   public static func register(with registrar: FlutterPluginRegistrar) {
-    #if os(iOS)
+    #if os(iOS) || os(tvOS)
       let messenger = registrar.messenger()
     #endif
     #if os(macOS)
@@ -101,7 +101,7 @@ public class InAppPurchasePlugin: NSObject, FlutterPlugin, FIAInAppPurchaseAPI {
         self?.updatedDownloads()
       },
       transactionCache: DefaultTransactionCache(cache: FIATransactionCache()))
-    #if os(iOS)
+    #if os(iOS) || os(tvOS)
       let messenger = registrar.messenger()
     #endif
     #if os(macOS)

@@ -3,6 +3,9 @@
 // found in the LICENSE file.
 
 import Flutter
+
+#if !os(tvOS)
+
 import SafariServices
 
 typealias OpenInSafariCompletionHandler = (Result<InAppLoadResult, Error>) -> Void
@@ -61,3 +64,5 @@ final class URLLaunchSession: NSObject, SFSafariViewControllerDelegate {
     safariViewControllerDidFinish(safariViewController)
   }
 }
+
+#endif

@@ -12,8 +12,9 @@ public final class URLLauncherPlugin: NSObject, FlutterPlugin, UrlLauncherApi {
     UrlLauncherApiSetup.setUp(binaryMessenger: registrar.messenger(), api: plugin)
     registrar.publish(plugin)
   }
-
+#if !os(tvOS)
   private var currentSession: URLLaunchSession?
+#endif
   private let launcher: Launcher
 
   private var topViewController: UIViewController? {
@@ -57,7 +58,7 @@ public final class URLLauncherPlugin: NSObject, FlutterPlugin, UrlLauncherApi {
       completion(.success(.invalidUrl))
       return
     }
-
+#if !os(tvOS)
     let session = URLLaunchSession(url: url, completion: completion)
     currentSession = session
 
@@ -65,10 +66,13 @@ public final class URLLauncherPlugin: NSObject, FlutterPlugin, UrlLauncherApi {
       self?.currentSession = nil
     }
     topViewController?.present(session.safariViewController, animated: true, completion: nil)
+#endif
   }
 
   func closeSafariViewController() {
+#if !os(tvOS)
     currentSession?.close()
+#endif
   }
 }
 
