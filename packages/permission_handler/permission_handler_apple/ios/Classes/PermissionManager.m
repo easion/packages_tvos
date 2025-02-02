@@ -119,8 +119,10 @@
             return [MediaLibraryPermissionStrategy new];
         case PermissionGroupMicrophone:
             return [AudioVideoPermissionStrategy new];
+#if !TARGET_OS_TV
         case PermissionGroupPhone:
             return [PhonePermissionStrategy new];
+#endif
         case PermissionGroupPhotos:
             #if PERMISSION_PHOTOS
             return [[PhotoPermissionStrategy alloc] initWithAccessAddOnly:false];
