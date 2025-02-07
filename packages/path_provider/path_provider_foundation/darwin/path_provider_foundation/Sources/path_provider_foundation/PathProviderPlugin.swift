@@ -13,6 +13,7 @@ import Foundation
 public class PathProviderPlugin: NSObject, FlutterPlugin, PathProviderApi {
   public static func register(with registrar: FlutterPluginRegistrar) {
     let instance = PathProviderPlugin()
+    //print("PathProviderPlugin() calling...")
     // Workaround for https://github.com/flutter/flutter/issues/118103.
     #if os(iOS) || os(tvOS)
       let messenger = registrar.messenger()

@@ -6,7 +6,7 @@
 #import "./include/video_player_avfoundation/FVPVideoPlayerPlugin_Test.h"
 
 #import <AVFoundation/AVFoundation.h>
-
+#import <TargetConditionals.h>
 #import "./include/video_player_avfoundation/FVPAVFactory.h"
 #import "./include/video_player_avfoundation/FVPDisplayLink.h"
 #import "./include/video_player_avfoundation/FVPFrameUpdater.h"
@@ -98,7 +98,7 @@
 // ability to play in silent mode or ability to record audio but never disables it,
 // that could affect other plugins which depend on this global state. Only change
 // category or options if there is change to prevent unnecessary lags and silence.
-#if TARGET_OS_IOS
+#if defined(TARGET_OS_IOS) || defined(TARGET_OS_TVOS)
 static void upgradeAudioSessionCategory(AVAudioSessionCategory requestedCategory,
                                         AVAudioSessionCategoryOptions options,
                                         AVAudioSessionCategoryOptions clearOptions) {
@@ -127,7 +127,7 @@ static void upgradeAudioSessionCategory(AVAudioSessionCategory requestedCategory
 #endif
 
 - (void)initialize:(FlutterError *__autoreleasing *)error {
-#if TARGET_OS_IOS
+#if defined(TARGET_OS_IOS) || defined(TARGET_OS_TVOS)
   // Allow audio playback when the Ring/Silent switch is set to silent
   upgradeAudioSessionCategory(AVAudioSessionCategoryPlayback, 0, 0);
 #endif
