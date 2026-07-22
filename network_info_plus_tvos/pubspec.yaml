@@ -1,0 +1,36 @@
+name: network_info_plus_tvos
+description: Flutter plugin for discovering information (e.g. WiFi details) of the network.
+version: 8.2.1
+homepage: https://github.com/fluttercommunity/plus_plugins
+repository: https://github.com/fluttercommunity/plus_plugins/tree/main/packages/network_info_plus_tvos/network_info_plus_tvos
+issue_tracker: https://github.com/fluttercommunity/plus_plugins/labels/network_info_plus_tvos
+topics:
+  - network
+  - information
+  - utils
+
+environment:
+  sdk: ">=3.10.0 <4.0.0"
+  flutter: ">=3.38.1"
+
+flutter:
+  plugin:
+    platforms:
+      tvos:
+        pluginClass: FPPNetworkInfoPlusPlugin
+      
+
+dependencies:
+  collection: ^1.19.1
+  ffi: ^2.2.0
+  flutter:
+    sdk: flutter
+  meta: ^1.17.0
+  #network_info_plus_platform_interface: ^3.1.0
+
+dev_dependencies:
+  flutter_lints: ^6.0.0
+  flutter_test:
+    sdk: flutter
+  mockito: ^5.6.4
+  plugin_platform_interface: ^2.1.8
