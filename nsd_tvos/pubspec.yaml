@@ -1,0 +1,19 @@
+name: tvos
+description: Flutter network service discovery plugin (iOS submodule - will be installed with the parent plugin).
+version: 3.0.1
+repository: https://github.com/sebastianhaberey/nsd/tree/main/
+issue_tracker: https://github.com/sebastianhaberey/nsd/issues
+
+environment:
+  sdk: ^3.11.0
+  flutter: ">=3.41.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+flutter:
+  plugin:
+    platforms:
+      tvos:
+        pluginClass: NsdIosPlugin
