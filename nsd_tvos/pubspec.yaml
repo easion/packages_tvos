@@ -16,4 +16,4 @@ flutter:
   plugin:
     platforms:
       tvos:
-        pluginClass: NsdIosPlugin
+        pluginClass: NsdtvosPlugin

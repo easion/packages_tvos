@@ -4,7 +4,7 @@ import PackageDescription
 let package = Package(
     name: "nsd_tvos",
     platforms: [
-        .iOS("13.0"),
+        .tvOS("13.0"),
     ],
     products: [
         .library(name: "nsd-tvos", targets: ["nsd_tvos"]),

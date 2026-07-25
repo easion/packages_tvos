@@ -1,4 +1,5 @@
 import Flutter
+import Darwin
 
 // TODO find out how to unit test these functions without making them public
 
@@ -20,6 +21,16 @@ func serializeService(_ netService: NetService) -> [String: Any?] {
         "service.host": netService.hostName,
     ]
 
+    // Android's NSD implementation supplies service.addresses directly. Keep
+    // the Apple implementation consistent by extracting a numeric address
+    // from NetService.addresses after resolution, preferring IPv4 because the
+    // current application-side SMB discovery expects it.
+    let addresses = numericAddresses(netService)
+    if let address = addresses.first(where: { $0.family == AF_INET })
+        ?? addresses.first {
+        service["service.addresses"] = address.value
+    }
+
     let port = netService.port;
     if (port >= 0) {
         service["service.port"] = port
@@ -32,6 +43,36 @@ func serializeService(_ netService: NetService) -> [String: Any?] {
     }
 
     return service
+}
+
+private func numericAddresses(_ netService: NetService) -> [(family: Int32, value: String)] {
+    (netService.addresses ?? []).compactMap { data in
+        var host = [CChar](repeating: 0, count: Int(NI_MAXHOST))
+        var family: Int32 = AF_UNSPEC
+
+        let result = data.withUnsafeBytes { rawBuffer -> Int32 in
+            guard let baseAddress = rawBuffer.baseAddress else {
+                return EAI_FAIL
+            }
+
+            let socketAddress = baseAddress.assumingMemoryBound(to: sockaddr.self)
+            family = Int32(socketAddress.pointee.sa_family)
+            return getnameinfo(
+                socketAddress,
+                socklen_t(data.count),
+                &host,
+                socklen_t(host.count),
+                nil,
+                0,
+                NI_NUMERICHOST
+            )
+        }
+
+        guard result == 0 else {
+            return nil
+        }
+        return (family, String(cString: host))
+    }
 }
 
 func deserializeService(_ arguments: Any?, domain: String = "local.") -> NetService? {
